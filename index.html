@@ -3,117 +3,230 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0b1020">
+  <meta name="theme-color" content="#eaf5ff">
+  <meta name="description" content="ZeichenLex – helles, modernes Gebärden-Wörterbuch mit Videos, Fotos und Text-zu-Gebärden-Wiedergabe.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="ZeichenLex">
   <title>ZeichenLex</title>
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" href="icon-192.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="topbar">
-  <div class="top-inner">
-    <div class="brand">
-      <img src="icons/icon-192.png" class="brand-icon" alt="">
-      <div>
-        <h1>ZeichenLex</h1>
-        <div class="sub">Gebärden schnell speichern & abspielen</div>
+  <header class="topbar">
+    <div class="top-inner">
+      <button class="brand" id="brandHome" aria-label="Startseite">
+        <img src="icon-192.png" alt="" class="brand-icon">
+        <div class="brand-copy">
+          <strong>ZeichenLex</strong>
+          <span>Dein Gebärden-Wörterbuch</span>
+        </div>
+      </button>
+      <div class="top-actions">
+        <button id="installBtn" class="icon-btn hidden" title="App installieren">⬇</button>
+        <button id="quickAddBtn" class="icon-btn accent" title="Neue Gebärde">＋</button>
       </div>
     </div>
-    <button id="installBtn" class="install-btn hidden">⬇ Installieren</button>
-  </div>
+  </header>
 
-  <div id="searchWrap" class="search-row">
-    <input id="search" class="input" placeholder="Wort suchen …" autocomplete="off">
-    <button id="addTop" class="primary square" aria-label="Gebärde hinzufügen">＋</button>
-  </div>
-</header>
-
-<main class="app">
-  <section id="dictView">
-    <div class="stats">
-      <span id="count">0 Einträge</span>
-      <span id="storageState">auf diesem Gerät</span>
-    </div>
-    <div id="grid" class="grid"></div>
-  </section>
-
-  <section id="translatorView" class="hidden">
-    <div class="translator">
-      <h2>🔤 Text → Gebärden</h2>
-      <p>Schreib einen deutschen Satz. ZeichenLex sucht die passenden Einträge und spielt die Videos der Reihe nach ab.</p>
-
-      <div class="translate-row">
-        <input id="translateText" class="input" placeholder="z. B. Hallo wie geht es dir?">
-        <button id="translateBtn" class="primary translate-btn">Übersetzen</button>
-      </div>
-
-      <div id="sequence" class="sequence"></div>
-
-      <div id="playerBar" class="player-bar hidden">
-        <button id="playAll" class="primary">▶ Alles abspielen</button>
-        <button id="stopAll" class="ghost">■ Stop</button>
-      </div>
-      <div id="translateStatus" class="status"></div>
-    </div>
-  </section>
-</main>
-
-<nav class="bottom">
-  <button class="navbtn active" id="navDict">📚<br>Wörterbuch</button>
-  <button class="navbtn" id="navTranslate">🔤<br>Übersetzen</button>
-  <button class="navbtn" id="navAdd">➕<br>Hinzufügen</button>
-</nav>
-
-<div id="modal" class="modal">
-  <div class="sheet">
-    <div class="sheet-top">
-      <h2 id="modalTitle">Neue Gebärde</h2>
-      <button id="close" class="x">✕</button>
-    </div>
-
-    <form id="form" class="form">
-      <input type="hidden" id="editId">
-
-      <div class="field">
-        <label>WORT *</label>
-        <input id="word" class="input" required placeholder="z. B. Hallo" autocomplete="off">
-      </div>
-
-      <div class="field">
-        <label>NOTIZ <span>(optional)</span></label>
-        <textarea id="notes" class="input" placeholder="Nur wenn du etwas dazuschreiben willst"></textarea>
-      </div>
-
-      <div class="field">
-        <label>VIDEO ODER FOTO</label>
-        <div class="upload">
-          <div class="upload-grid">
-            <label class="file-btn">📁 Galerie
-              <input id="mediaFile" type="file" accept="image/*,video/*" hidden>
-            </label>
-
-            <label class="file-btn">📷 Foto
-              <input id="photoFile" type="file" accept="image/*" capture="environment" hidden>
-            </label>
-
-            <label class="file-btn wide">🎥 Video aufnehmen
-              <input id="videoFile" type="file" accept="video/*" capture="environment" hidden>
-            </label>
-          </div>
-          <div class="hint">Nur das Wort ist Pflicht.</div>
-          <div id="preview" class="preview"></div>
+  <main class="shell">
+    <section id="homeView" class="view active">
+      <div class="hero glass">
+        <div>
+          <span class="eyebrow">SCHNELL & EINFACH</span>
+          <h1>Gebärden merken,<br><span>statt lange tippen.</span></h1>
+          <p>Wort aufnehmen, Video speichern, fertig. Danach kann ZeichenLex deine Wörter als Videokette abspielen.</p>
+        </div>
+        <div class="hero-actions">
+          <button id="heroVideo" class="big-action primary">
+            <span class="action-icon">🎥</span>
+            <span><b>Video aufnehmen</b><small>Direkt neue Gebärde erstellen</small></span>
+          </button>
+          <button id="heroTranslate" class="big-action secondary">
+            <span class="action-icon">🔤</span>
+            <span><b>Text übersetzen</b><small>Wörter als Videos abspielen</small></span>
+          </button>
         </div>
       </div>
 
-      <button class="save" type="submit">Speichern</button>
-    </form>
-  </div>
-</div>
+      <div class="summary-grid">
+        <div class="stat-card glass"><span>Gespeichert</span><strong id="statEntries">0</strong><small>Gebärden</small></div>
+        <div class="stat-card glass"><span>Mit Video</span><strong id="statVideos">0</strong><small>Einträge</small></div>
+        <div class="stat-card glass"><span>Favoriten</span><strong id="statFavs">0</strong><small>markiert</small></div>
+      </div>
 
-<div id="toast" class="toast"></div>
-<script src="app.js"></script>
+      <div class="section-head">
+        <div><span class="eyebrow">ZULETZT</span><h2>Neue Gebärden</h2></div>
+        <button id="showAllBtn" class="text-btn">Alle anzeigen →</button>
+      </div>
+      <div id="recentGrid" class="cards-grid compact"></div>
+    </section>
+
+    <section id="dictionaryView" class="view">
+      <div class="section-head">
+        <div><span class="eyebrow">WÖRTERBUCH</span><h2>Alle Gebärden</h2></div>
+        <button id="dictAddBtn" class="small-primary">＋ Hinzufügen</button>
+      </div>
+
+      <div class="toolbar glass">
+        <div class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Wort oder Notiz suchen …"></div>
+        <div class="chips" id="filterChips">
+          <button class="chip active" data-filter="all">Alle</button>
+          <button class="chip" data-filter="video">🎥 Video</button>
+          <button class="chip" data-filter="photo">📷 Foto</button>
+          <button class="chip" data-filter="favorite">★ Favoriten</button>
+        </div>
+        <select id="sortSelect" class="sort-select">
+          <option value="recent">Zuletzt geändert</option>
+          <option value="az">A–Z</option>
+          <option value="za">Z–A</option>
+        </select>
+      </div>
+
+      <div class="results-line"><span id="resultCount">0 Einträge</span></div>
+      <div id="dictionaryGrid" class="cards-grid"></div>
+    </section>
+
+    <section id="translatorView" class="view">
+      <div class="translator-card glass">
+        <span class="eyebrow">TEXT → GEBÄRDEN</span>
+        <h2>Schreib deinen Satz.</h2>
+        <p>ZeichenLex sucht passende Wörter oder ganze Wortgruppen in deinem Wörterbuch und spielt die Medien der Reihe nach ab.</p>
+        <div class="translator-input-row">
+          <textarea id="translateInput" rows="3" placeholder="z. B. Hallo wie geht es dir?"></textarea>
+          <button id="translateBtn" class="translate-go">▶</button>
+        </div>
+        <div class="translator-actions">
+          <button id="playAgainBtn" class="soft-btn hidden">↻ Nochmal</button>
+          <button id="stopBtn" class="soft-btn hidden">■ Stop</button>
+          <span id="translateStatus" class="status-text"></span>
+        </div>
+      </div>
+
+      <div id="sequenceWrap" class="sequence-wrap hidden">
+        <div class="section-head"><div><span class="eyebrow">ERGEBNIS</span><h2>Videokette</h2></div></div>
+        <div id="sequence" class="sequence"></div>
+      </div>
+    </section>
+
+    <section id="dataView" class="view">
+      <div class="section-head"><div><span class="eyebrow">APP & DATEN</span><h2>Einstellungen</h2></div></div>
+      <div class="settings-grid">
+
+        <div class="setting-card glass cloud-card">
+          <div class="setting-icon">☁️</div>
+          <div>
+            <h3>Cloud-Sync</h3>
+            <p id="cloudStatusText">Cloud wird geprüft …</p>
+          </div>
+          <button id="syncNowBtn" class="small-primary">Sync</button>
+        </div>
+        <div class="setting-card glass">
+          <div class="setting-icon">📲</div><div><h3>Als App installieren</h3><p>Wie eine normale App auf dem Homescreen.</p></div>
+          <button id="settingsInstallBtn" class="small-primary">Installieren</button>
+        </div>
+        <div class="setting-card glass">
+          <div class="setting-icon">📤</div><div><h3>Daten exportieren</h3><p>Wörter, Fotos und Videos sichern.</p></div>
+          <button id="exportBtn" class="soft-btn">Exportieren</button>
+        </div>
+        <div class="setting-card glass">
+          <div class="setting-icon">📥</div><div><h3>Daten importieren</h3><p>Ein ZeichenLex-Backup laden.</p></div>
+          <label class="soft-btn file-label">Importieren<input id="importInput" type="file" accept=".json,application/json" hidden></label>
+        </div>
+        <div class="setting-card glass danger-card">
+          <div class="setting-icon">🗑️</div><div><h3>Alle Daten löschen</h3><p>Alle lokalen Gebärden entfernen.</p></div>
+          <button id="deleteAllBtn" class="danger-btn">Alles löschen</button>
+        </div>
+      </div>
+      <div class="info-panel glass"><strong id="connectionState">● Online</strong><p>Die App funktioniert offline. Deine Einträge werden aktuell lokal auf diesem Gerät gespeichert.</p></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-view="homeView"><span>⌂</span><small>Start</small></button>
+    <button class="nav-item" data-view="dictionaryView"><span>▦</span><small>Wörterbuch</small></button>
+    <button class="nav-item central" id="navAddBtn"><span>＋</span><small>Neu</small></button>
+    <button class="nav-item" data-view="translatorView"><span>▶</span><small>Übersetzen</small></button>
+    <button class="nav-item" data-view="dataView"><span>⚙</span><small>Mehr</small></button>
+  </nav>
+
+  <div id="entryModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-entry></div>
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head">
+        <div><span class="eyebrow" id="modalEyebrow">NEUE GEBÄRDE</span><h2 id="modalTitle">Schnell hinzufügen</h2></div>
+        <button class="close-btn" data-close-entry>✕</button>
+      </div>
+      <form id="entryForm" class="entry-form">
+        <input type="hidden" id="entryId">
+        <div class="field main-field"><label>Wort *</label><input id="wordInput" required autocomplete="off" placeholder="z. B. Hallo"></div>
+
+        <div class="media-options">
+          <label class="media-option featured"><input id="videoCapture" type="file" accept="video/*" capture="environment" hidden><span>🎥</span><b>Video aufnehmen</b><small>am schnellsten</small></label>
+          <label class="media-option"><input id="photoCapture" type="file" accept="image/*" capture="environment" hidden><span>📷</span><b>Foto</b></label>
+          <label class="media-option"><input id="galleryInput" type="file" accept="image/*,video/*" hidden><span>▧</span><b>Galerie</b></label>
+        </div>
+        <div id="mediaAdjuster" class="media-adjuster hidden">
+          <div class="adjust-head">
+            <div>
+              <b>Ausschnitt anpassen</b>
+              <span id="orientationHint">Zieh das Video mit dem Finger an die richtige Stelle.</span>
+            </div>
+            <span class="landscape-badge">16:9</span>
+          </div>
+
+          <div id="cropStage" class="crop-stage">
+            <div id="cropMedia" class="crop-media"></div>
+            <div class="hand-guide" aria-hidden="true">
+              <span>Hände hier gut sichtbar halten</span>
+            </div>
+          </div>
+
+          <div class="fit-toggle">
+            <button type="button" class="fit-btn active" data-fit-mode="cover">Quer ausfüllen</button>
+            <button type="button" class="fit-btn" data-fit-mode="contain">Ganz zeigen</button>
+          </div>
+
+          <label class="zoom-control">
+            <span>Zoom</span>
+            <input id="zoomSlider" type="range" min="0.60" max="2.50" step="0.05" value="1">
+            <output id="zoomValue">100%</output>
+          </label>
+
+          <div class="adjust-buttons">
+            <button type="button" id="rotateMedia" class="soft-btn">↻ 90° drehen</button>
+            <button type="button" id="centerMedia" class="soft-btn">◎ Zentrieren</button>
+            <button type="button" id="resetMedia" class="soft-btn">Zurücksetzen</button>
+          </div>
+
+          <p class="crop-tip">Du kannst Hochkant-Videos im Querformat nach oben/unten oder links/rechts verschieben. Das Originalvideo bleibt unverändert.</p>
+        </div>
+
+        <details class="optional">
+          <summary>Mehr Angaben <span>optional</span></summary>
+          <div class="field"><label>Weitere Wörter / Synonyme</label><input id="aliasesInput" placeholder="z. B. Hi, Guten Tag"><small>Mit Komma trennen.</small></div>
+          <div class="field"><label>Notiz</label><textarea id="noteInput" rows="3" placeholder="Merkhilfe, Handbewegung …"></textarea></div>
+          <label class="favorite-toggle"><input id="favoriteInput" type="checkbox"><span>★ Als Favorit markieren</span></label>
+        </details>
+        <button class="save-btn" type="submit">Gebärde speichern</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="viewerModal" class="modal viewer-modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-viewer></div>
+    <div class="viewer-card">
+      <button class="close-btn viewer-close" data-close-viewer>✕</button>
+      <div id="viewerMedia" class="viewer-media"></div>
+      <div class="viewer-copy"><h2 id="viewerWord"></h2><p id="viewerNote"></p></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="cloud-config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
